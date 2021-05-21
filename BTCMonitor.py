@@ -1,3 +1,4 @@
+# IMPORTS
 import requests 
 import os
 import time
@@ -6,9 +7,12 @@ from datetime import datetime
 # OTHER
 ##############################################################################################################################################################################
 
+# USE CURRENCY CODE ON END OF LINK, E.G USD, GBP, EUR, SOME MAY NOT BE SUPPORTED BY COINBASE
 btc_url = "https://api.coinbase.com/v2/prices/spot?currency=GBP"
 
-discord_webhook_url = "https://discord.com/api/webhooks/845422574959198218/azGFtor3OnruTJ3oa-erzrRBOtAY7qJ-K1tFqobT2zElaEF8GG96jFIIoibjw0lJ8dPM"
+# DISCORD WEBHOOK LINK HERE
+# SEE https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks FOR MORE INFO
+discord_webhook_url = ""
 
 send_requests_safe = False
 
@@ -28,6 +32,9 @@ def time_manager():
 
     btc_request_sanitised = str(btc_request.text).replace('{"data":{"base":"', '').replace('"', '').replace(',', ' ').replace('currency:', '').replace('amount:', '').replace('}}', '')
 
+    # HERE, YOU WILL NEED TO REPLACE THE £ WITH THE CURRENCY SYMBOL WHICH IS THE SAME AS USED ON THE COINBASE LINK.
+    # E.G, IF THE COINBASE LINK IS https://api.coinbase.com/v2/prices/spot?currency=EUR , .replace('EUR', '€') WOULD BE USED
+    
     btc_request_beautify = btc_request_sanitised.replace('GBP', '£').split()
 
     btc_request_beautify_2 = (btc_request_beautify[1] + btc_request_beautify[2]).replace(' ', '') 
@@ -47,6 +54,7 @@ def time_manager():
     while True:
         print("[COINBASE REQUEST] " + btc_nice_string)
         print("[DISCORD REQUEST] " + str(discord_webhook_post.text))
+        # CURRENT INTERVAL IS 1 HOUR (time.sleep() USES SECONDS), IT CAN BE CHANGED BY REPLACING THE 3600 BELOW
         time.sleep(3600)
 
 ##############################################################################################################################################################################
